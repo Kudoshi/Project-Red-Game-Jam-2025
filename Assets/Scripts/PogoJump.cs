@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class PogoJump : Singleton<PogoJump>
 {
@@ -10,6 +11,7 @@ public class PogoJump : Singleton<PogoJump>
     [SerializeField] private SpriteRenderer _arrowHeadSprite;
     [SerializeField] private Transform _tappy;
     [SerializeField] private CinemachineCamera _vcam;
+    [SerializeField] private ParticleSystem _smokeFx;
 
     [Header("Stats")]
     [SerializeField] private float _poggingThreshold;
@@ -167,15 +169,18 @@ public class PogoJump : Singleton<PogoJump>
 
                 if ((hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
                 {
+                    if (!_isGrounded)
+                    {
+                        _smokeFx.Play();
+                    }
+
                     _isGrounded = true;
                     _rb.bodyType = RigidbodyType2D.Kinematic;
                     _rb.linearVelocity = Vector2.zero;
                     _jumpForcePerc = 1;
 
-                    if (_rb.angularVelocity > 0 && _rb.bodyType == RigidbodyType2D.Kinematic)
-                    {
-                        _rb.angularVelocity = 0;
-                    }
+                    
+                    _rb.angularVelocity = 0;
 
                     if (_targetLensOutzoom == _flyingZoomOutSize)
                         _targetLensOutzoom = _defaultLensOutzoom;
@@ -243,7 +248,7 @@ public class PogoJump : Singleton<PogoJump>
         {
 
             Vector2 inputPosition;
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase != TouchPhase.Ended)
             {
                 Touch touch = Input.GetTouch(0);
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
@@ -321,7 +326,7 @@ public class PogoJump : Singleton<PogoJump>
 
         // Rotate the arrow to point from offsetHeadPointer to the finalTouchPoint
         Vector3 aimDirection = finalTouchPoint - offsetHeadPointer;
-        _arrowHeadSprite.transform.rotation = Quaternion.Euler(0, 0, angle);
+        _arrowHeadSprite.transform.rotation = Quaternion.Euler(0, 0, angle-90f);
 
         _tappy.DOLocalMoveY(-0.4f, 0.25f).SetEase(Ease.InOutBounce);
 
