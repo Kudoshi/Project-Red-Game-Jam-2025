@@ -41,7 +41,6 @@ public class PogoJump : MonoBehaviour
     }
     void Update()
     {
-        
         HandleGrounding();
 
         if (_jumpAmount == 0)
@@ -86,8 +85,12 @@ public class PogoJump : MonoBehaviour
         if (Time.time >= _recheckGrounding && _isGrounded && !_holding)
         {
             Debug.Log("Rotate bang");
-            Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _rerotateSpeed);
+
+            float currentZ = _rb.rotation;
+            float targetZ = 0f;
+
+            float newZ = Mathf.LerpAngle(currentZ, targetZ, Time.deltaTime * _rerotateSpeed);
+            _rb.MoveRotation(newZ);
         }
     }
         
