@@ -31,7 +31,8 @@ public class PogoJump : Singleton<PogoJump>
     [SerializeField] private float _rayDistance = 0.5f;
 
     [Header("Pog Zoom Out")]
-    [SerializeField] private float _targetZoomOutSize;
+    [SerializeField] private float _pogZoomOutSize;
+    [SerializeField] private float _flyingZoomOutSize;
     [SerializeField] private float _zoomOutDuration;
 
     private bool _holding;
@@ -87,7 +88,7 @@ public class PogoJump : Singleton<PogoJump>
         float currentSize = _vcam.Lens.OrthographicSize;
         float zoomOutSpeed = _zoomOutDuration;
         //Zooming out
-        if (currentSize != _targetZoomOutSize)
+        if (currentSize == _flyingZoomOutSize)
         {
             zoomOutSpeed /= 2;
         }
@@ -149,6 +150,9 @@ public class PogoJump : Singleton<PogoJump>
                     _rb.bodyType = RigidbodyType2D.Kinematic;
                     _rb.linearVelocity = Vector2.zero;
                     _jumpForcePerc = 1;
+
+                    if (_targetLensOutzoom == _flyingZoomOutSize)
+                        _targetLensOutzoom = _defaultLensOutzoom;
                 }
             }
             else
@@ -194,7 +198,6 @@ public class PogoJump : Singleton<PogoJump>
                 _inputData.StartingHoldPos = worldPos;
                 _inputData.CurrentHoldPos = worldPos;
 
-                _targetLensOutzoom = _targetZoomOutSize;
             }
             //else if (Input.GetMouseButtonDown(0))
             //{
@@ -273,7 +276,8 @@ public class PogoJump : Singleton<PogoJump>
             return;
         }
 
-        
+
+        _targetLensOutzoom = _pogZoomOutSize;
 
         _arrowLineRenderer.enabled = true;
         _arrowHeadSprite.enabled = true;
@@ -367,7 +371,7 @@ public class PogoJump : Singleton<PogoJump>
         _tappy.DOKill();
         _tappy.DOLocalMoveY(0.5f, 0.15f).SetEase(Ease.InOutQuad);
 
-        _targetLensOutzoom = _defaultLensOutzoom;
+        _targetLensOutzoom = _flyingZoomOutSize;
 
     }
 
