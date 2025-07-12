@@ -11672,7 +11672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 119561271305404871, guid: cc5d8c8a1a932d149b504f81873ffe57, type: 3}
       propertyPath: startSpawnHeight
-      value: 6
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 119561271305404871, guid: cc5d8c8a1a932d149b504f81873ffe57, type: 3}
       propertyPath: verticalOffsetMax
