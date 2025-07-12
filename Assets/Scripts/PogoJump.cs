@@ -1,4 +1,6 @@
+using DG.Tweening;
 using System;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PogoJump : Singleton<PogoJump>
@@ -6,6 +8,8 @@ public class PogoJump : Singleton<PogoJump>
     [SerializeField] private LineRenderer _arrowLineRenderer;
     [SerializeField] private Vector3 _arrowOffset;
     [SerializeField] private SpriteRenderer _arrowHeadSprite;
+    [SerializeField] private Transform _tappy;
+    [SerializeField] private CinemachineCamera _vcam;
 
     [Header("Stats")]
     [SerializeField] private float _poggingThreshold;
@@ -26,6 +30,10 @@ public class PogoJump : Singleton<PogoJump>
     [SerializeField] private float _groundCheckNextTime;
     [SerializeField] private float _rayDistance = 0.5f;
 
+    [Header("Pog Zoom Out")]
+    [SerializeField] private float _targetZoomOutSize;
+    [SerializeField] private float _zoomOutDuration;
+
     private bool _holding;
     private Rigidbody2D _rb;
     private float _jumpForcePerc;
@@ -34,6 +42,8 @@ public class PogoJump : Singleton<PogoJump>
     private int _jumpAmount;
     private float _recheckGrounding;
     private Vector3 _velocity;
+    private float _defaultLensOutzoom;
+    private float _targetLensOutzoom;
 
     public int JumpAmount { get => _jumpAmount; }
 
@@ -44,6 +54,8 @@ public class PogoJump : Singleton<PogoJump>
         _arrowHeadSprite.enabled = false;
         _rb = GetComponent<Rigidbody2D>();
         _jumpAmount = _jumpResetAmount;
+        _defaultLensOutzoom = _vcam.Lens.OrthographicSize;
+        _targetLensOutzoom = _defaultLensOutzoom;
     }
     void Update()
     {
@@ -65,7 +77,23 @@ public class PogoJump : Singleton<PogoJump>
 
         HandleRerotation();
 
+        HandleZoom();
+
         Ref_Velocity = _rb.linearVelocity;
+    }
+
+    private void HandleZoom()
+    {
+        float currentSize = _vcam.Lens.OrthographicSize;
+        float zoomOutSpeed = _zoomOutDuration;
+        //Zooming out
+        if (currentSize != _targetZoomOutSize)
+        {
+            zoomOutSpeed /= 2;
+        }
+
+        float newSize = Mathf.Lerp(currentSize, _targetLensOutzoom, Time.deltaTime * zoomOutSpeed);
+        _vcam.Lens.OrthographicSize = newSize;
     }
 
     private void HandleMovement()
@@ -165,6 +193,8 @@ public class PogoJump : Singleton<PogoJump>
                 _inputData = new InputData(true, InputData.INPUT_PHASE.HOLDING, inputPosition, Vector2.negativeInfinity);
                 _inputData.StartingHoldPos = worldPos;
                 _inputData.CurrentHoldPos = worldPos;
+
+                _targetLensOutzoom = _targetZoomOutSize;
             }
             //else if (Input.GetMouseButtonDown(0))
             //{
@@ -263,6 +293,13 @@ public class PogoJump : Singleton<PogoJump>
         Vector3 aimDirection = finalTouchPoint - offsetHeadPointer;
         _arrowHeadSprite.transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        _tappy.DOLocalMoveY(-0.4f, 0.25f).SetEase(Ease.InOutBounce);
+
+        //DOTween.To(() => _vcam.Lens.OrthographicSize,
+        //       x => _vcam.Lens.OrthographicSize = x,
+        //       _targetZoomOutSize,
+        //       _zoomOutDuration)
+        //   .SetEase(Ease.InOutQuad);
     }
 
     private void HandlePogoRotation()
@@ -327,6 +364,10 @@ public class PogoJump : Singleton<PogoJump>
         
 
         _recheckGrounding = Time.time + _groundCheckNextTime;
+        _tappy.DOKill();
+        _tappy.DOLocalMoveY(0.5f, 0.15f).SetEase(Ease.InOutQuad);
+
+        _targetLensOutzoom = _defaultLensOutzoom;
 
     }
 

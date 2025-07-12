@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6043c03bebea0364498c15d235ee0fae
+guid: f048f11fa5f5f11459e50f7db994afe6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5881544338243731604
-    second: TAPPYPOGO_POGO_SPRING_0
+      213: 8990975546307273060
+    second: TAPPYPOGO_POGO_NOTAPPY_NOSPRING_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TAPPYPOGO_POGO_SPRING_0
+      name: TAPPYPOGO_POGO_NOTAPPY_NOSPRING_0
       rect:
         serializedVersion: 2
-        x: 470
-        y: 42
-        width: 139
-        height: 237
+        x: 230
+        y: 216
+        width: 619
+        height: 435
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4904ab3f9617f9150800000000000000
-      internalID: 5881544338243731604
+      spriteID: 4616ed58f9c56cc70800000000000000
+      internalID: 8990975546307273060
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TAPPYPOGO_POGO_SPRING_0: 5881544338243731604
+      TAPPYPOGO_POGO_NOTAPPY_NOSPRING_0: 8990975546307273060
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
