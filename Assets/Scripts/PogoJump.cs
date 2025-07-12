@@ -172,6 +172,11 @@ public class PogoJump : Singleton<PogoJump>
                     _rb.linearVelocity = Vector2.zero;
                     _jumpForcePerc = 1;
 
+                    if (_rb.angularVelocity > 0 && _rb.bodyType == RigidbodyType2D.Kinematic)
+                    {
+                        _rb.angularVelocity = 0;
+                    }
+
                     if (_targetLensOutzoom == _flyingZoomOutSize)
                         _targetLensOutzoom = _defaultLensOutzoom;
                 }
