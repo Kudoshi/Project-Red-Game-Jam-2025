@@ -37,6 +37,8 @@ public class PogoJump : Singleton<PogoJump>
 
     public int JumpAmount { get => _jumpAmount; }
 
+    public Vector3 Ref_Velocity;
+
     private void Awake()
     {
         _arrowHeadSprite.enabled = false;
@@ -63,7 +65,7 @@ public class PogoJump : Singleton<PogoJump>
 
         HandleRerotation();
 
-
+        Ref_Velocity = _rb.linearVelocity;
     }
 
     private void HandleMovement()
@@ -112,17 +114,13 @@ public class PogoJump : Singleton<PogoJump>
                 Vector2 rayDirection = -transform.up;
 
                 RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, _rayDistance, _groundLayerMask);
-                Debug.Log("Normal from raycast: " + hit.normal);
 
-                if (hit.collider != null)
+                if ((hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
                 {
-                    if ((hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
-                    {
-                        _isGrounded = true;
-                        _rb.bodyType = RigidbodyType2D.Kinematic;
-                        _rb.linearVelocity = Vector2.zero;
-                        _jumpForcePerc = 1;
-                    }
+                    _isGrounded = true;
+                    _rb.bodyType = RigidbodyType2D.Kinematic;
+                    _rb.linearVelocity = Vector2.zero;
+                    _jumpForcePerc = 1;
                 }
             }
             else
@@ -143,29 +141,43 @@ public class PogoJump : Singleton<PogoJump>
 
             if (Input.touchCount > 0 )
             {
-                _holding = true;
-                _arrowHeadSprite.enabled = true;
+                
 
                 Touch touch = Input.GetTouch(0);
                 Vector2 inputPosition = touch.position;
+
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, 0));
+
+                Vector3 offsetHeadPointer = transform.position + _arrowOffset;
+                Vector3 dirToInput = worldPos - offsetHeadPointer;
+
+
+                float angle = Mathf.Atan2(dirToInput.y, dirToInput.x) * Mathf.Rad2Deg;
+                if (angle < _restrictPogAngle.x || angle > _restrictPogAngle.y)
+                {
+                    return;
+                }
+
+
+                _holding = true;
+                _arrowHeadSprite.enabled = true;
 
                 _inputData = new InputData(true, InputData.INPUT_PHASE.HOLDING, inputPosition, Vector2.negativeInfinity);
                 _inputData.StartingHoldPos = worldPos;
                 _inputData.CurrentHoldPos = worldPos;
             }
-            else if (Input.GetMouseButtonDown(0))
-            {
-                _holding = true;
-                _arrowHeadSprite.enabled = true;
+            //else if (Input.GetMouseButtonDown(0))
+            //{
+            //    _holding = true;
+            //    _arrowHeadSprite.enabled = true;
 
-                Vector2 inputPosition = Input.mousePosition;
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, 0));
+            //    Vector2 inputPosition = Input.mousePosition;
+            //    Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(inputPosition.x, inputPosition.y, 0));
 
-                _inputData = new InputData(false, InputData.INPUT_PHASE.HOLDING, inputPosition, Vector2.negativeInfinity);
-                _inputData.StartingHoldPos = worldPos;
-                _inputData.CurrentHoldPos = worldPos;
-            }
+            //    _inputData = new InputData(false, InputData.INPUT_PHASE.HOLDING, inputPosition, Vector2.negativeInfinity);
+            //    _inputData.StartingHoldPos = worldPos;
+            //    _inputData.CurrentHoldPos = worldPos;
+            //}
 
         }
         else if (_holding)
@@ -178,15 +190,17 @@ public class PogoJump : Singleton<PogoJump>
                 Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 0));
                 worldPos.z = 0;
                 HandlePogging(worldPos);
+                //Debug.Log("pogging mobile");
             }
-            else if (Input.GetMouseButton(0))
-            {
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                worldPos.z = 0;
+            //else if (Input.GetMouseButton(0))
+            //{
+            //    Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+            //    worldPos.z = 0;
+            //    Debug.Log("pogging PC");
 
-                HandlePogging(worldPos);
+            //    HandlePogging(worldPos);
 
-            }
+            //}
             else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 Touch touch = Input.GetTouch(0);
@@ -195,14 +209,14 @@ public class PogoJump : Singleton<PogoJump>
                 PogOut(touch.position);
 
             }
-            else if (Input.GetMouseButtonUp(0)) 
-            {
-                _inputData.Phase = InputData.INPUT_PHASE.END;
-                _holding = false;
-                PogOut(Input.mousePosition);
+            //else if (Input.GetMouseButtonUp(0)) 
+            //{
+            //    _inputData.Phase = InputData.INPUT_PHASE.END;
+            //    _holding = false;
+            //    PogOut(Input.mousePosition);
 
 
-            }
+            //}
 
 
         }
@@ -224,7 +238,6 @@ public class PogoJump : Singleton<PogoJump>
         }
 
         float angle = Mathf.Atan2(dirToInput.y, dirToInput.x) * Mathf.Rad2Deg;
-        Debug.Log(angle);
         if (angle < _restrictPogAngle.x || angle  > _restrictPogAngle.y)
         {
             return;
@@ -244,10 +257,7 @@ public class PogoJump : Singleton<PogoJump>
         // Save it
         _inputData.CurrentHoldPos = finalTouchPoint;
 
-        // Move arrow to that point
-        Vector3 arrowPos = finalTouchPoint;
-        arrowPos.z = 0;
-        _arrowHeadSprite.transform.position = arrowPos;
+        
 
         // Rotate the arrow to point from offsetHeadPointer to the finalTouchPoint
         Vector3 aimDirection = finalTouchPoint - offsetHeadPointer;
@@ -273,11 +283,20 @@ public class PogoJump : Singleton<PogoJump>
             {
                 _arrowLineRenderer.SetPosition(0, transform.position + _arrowOffset);
                 _arrowLineRenderer.SetPosition(1, transform.position + _arrowOffset);
+                // Move arrow to that point
+                Vector3 arrowPos1 = _inputData.CurrentHoldPos;
+                arrowPos1.z = 0;
+                _arrowHeadSprite.transform.position = arrowPos1;
+
                 return;
             }
 
             _arrowLineRenderer.SetPosition(0, transform.position + _arrowOffset);
             _arrowLineRenderer.SetPosition(1, _inputData.CurrentHoldPos);
+            // Move arrow to that point
+            Vector3 arrowPos = _inputData.CurrentHoldPos;
+            arrowPos.z = 0;
+            _arrowHeadSprite.transform.position = arrowPos;
         }
         else if (_inputData.Phase == InputData.INPUT_PHASE.END)
         {
@@ -290,6 +309,7 @@ public class PogoJump : Singleton<PogoJump>
 
     private void PogOut(Vector3 currentInputPos)
     {
+        _rb.angularVelocity = 0;
 
         float pogForce = _maxPogForce * (_inputData.pogDistance / _poggingMaxDistance);
         //_rb.AddForce(transform.up * pogForce, ForceMode2D.Impulse);
