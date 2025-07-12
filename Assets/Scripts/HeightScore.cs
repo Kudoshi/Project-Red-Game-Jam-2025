@@ -1,12 +1,15 @@
 using System;
 using UnityEditor.U2D.Sprites;
 using UnityEngine;
+using TMPro;
 
 public class HeightScore : MonoBehaviour
 {
     public GameObject player;
+    public TextMeshProUGUI HeightMeter;
     
     [SerializeField] private float highestHeight = 0f;
+    [SerializeField] private float currentHeight = 0f;
     [SerializeField] private float multiplier = 10f;
     
 
@@ -17,7 +20,8 @@ public class HeightScore : MonoBehaviour
     {
         if (isGameEnd) return;
 
-        float currentHeight = player.transform.position.y;
+        currentHeight = player.transform.position.y;
+        HeightMeter.text = Mathf.FloorToInt(currentHeight).ToString("0000");
         if (currentHeight > highestHeight)
         {
             highestHeight = currentHeight;

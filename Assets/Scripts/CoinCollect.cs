@@ -11,12 +11,12 @@ public class CoinCollect : MonoBehaviour
     private int coin = 0;
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             coin++;
-            CoinAmount.text = "X " + coin.ToString();
+            CoinAmount.text = "X" + coin.ToString();
             Destroy(gameObject);
         }
     }
