@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4403031414508608988}
   - component: {fileID: 7487719382137084663}
   - component: {fileID: 6253652489419496950}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1545394875
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.9879937, g: 1, b: 0, a: 1}
@@ -124,7 +124,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.9549983
 --- !u!114 &6253652489419496950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,4 +137,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a30d09643525e6545b67acc58146909f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoinAmount: {fileID: 0}
