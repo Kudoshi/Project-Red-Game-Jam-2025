@@ -23,6 +23,7 @@ public class PogoJump : MonoBehaviour
     [SerializeField] private float _groundingSizing;
     [SerializeField] private LayerMask _groundLayerMask;
     [SerializeField] private float _groundCheckNextTime;
+    [SerializeField] private float _rayDistance = 0.5f;
 
     private bool _holding;
     private Rigidbody2D _rb;
@@ -100,17 +101,29 @@ public class PogoJump : MonoBehaviour
         if (Time.time > _recheckGrounding)
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + _groundingOffset, _groundingSizing, _groundLayerMask);
+
             if (colliders.Length > 0)
             {
-                _isGrounded = true;
-                _rb.bodyType = RigidbodyType2D.Kinematic;
-                _rb.linearVelocity = Vector2.zero;
-                _jumpForcePerc = 1;
+                // Raycast from above the player's feet into the ground to get surface normal
+                Vector2 rayOrigin = transform.position;
+                Vector2 rayDirection = -transform.up;
 
-                //_jumpAmount = _jumpResetAmount;
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, _rayDistance, _groundLayerMask);
+                Debug.Log("Normal from raycast: " + hit.normal);
+
+                if (hit.collider != null && hit.normal.y > 0.85)
+                {
+                    Vector2 normal = hit.normal;
+
+                    _isGrounded = true;
+                    _rb.bodyType = RigidbodyType2D.Kinematic;
+                    _rb.linearVelocity = Vector2.zero;
+                    _jumpForcePerc = 1;
+                }
             }
-            else _isGrounded = false;
+            else _isGrounded = false; 
         }
+
     }
 
     private void HandleStartingEndInput()
