@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class Airplane : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float speed = 5f;
 
-    // Update is called once per frame
     void Update()
     {
+        transform.Translate(Vector2.left * speed * Time.deltaTime);
         
+        if (Camera.main != null && transform.position.x < Camera.main.transform.position.x - 10f)
+        {
+            Destroy(gameObject);
+        }
     }
 }
