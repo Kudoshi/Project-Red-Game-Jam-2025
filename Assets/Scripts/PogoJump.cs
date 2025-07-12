@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PogoJump : MonoBehaviour
+public class PogoJump : Singleton<PogoJump>
 {
     [SerializeField] private LineRenderer _arrowLineRenderer;
     [SerializeField] private Vector3 _arrowOffset;
@@ -11,6 +11,7 @@ public class PogoJump : MonoBehaviour
     [SerializeField] private float _poggingThreshold;
     [SerializeField] private float _poggingMaxDistance;
     [SerializeField] private float _maxPogForce;
+    [SerializeField] private Vector2 _restrictPogAngle;
     [SerializeField] private int _jumpResetAmount;
     [SerializeField] private float _rerotateSpeed;
     [SerializeField] private float _gravity;
@@ -23,6 +24,7 @@ public class PogoJump : MonoBehaviour
     [SerializeField] private float _groundingSizing;
     [SerializeField] private LayerMask _groundLayerMask;
     [SerializeField] private float _groundCheckNextTime;
+    [SerializeField] private float _rayDistance = 0.5f;
 
     private bool _holding;
     private Rigidbody2D _rb;
@@ -33,6 +35,8 @@ public class PogoJump : MonoBehaviour
     private float _recheckGrounding;
     private Vector3 _velocity;
 
+    public int JumpAmount { get => _jumpAmount; }
+
     private void Awake()
     {
         _arrowHeadSprite.enabled = false;
@@ -41,7 +45,6 @@ public class PogoJump : MonoBehaviour
     }
     void Update()
     {
-        
         HandleGrounding();
 
         if (_jumpAmount == 0)
@@ -86,8 +89,12 @@ public class PogoJump : MonoBehaviour
         if (Time.time >= _recheckGrounding && _isGrounded && !_holding)
         {
             Debug.Log("Rotate bang");
-            Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _rerotateSpeed);
+
+            float currentZ = _rb.rotation;
+            float targetZ = 0f;
+
+            float newZ = Mathf.LerpAngle(currentZ, targetZ, Time.deltaTime * _rerotateSpeed);
+            _rb.MoveRotation(newZ);
         }
     }
         
@@ -97,17 +104,34 @@ public class PogoJump : MonoBehaviour
         if (Time.time > _recheckGrounding)
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + _groundingOffset, _groundingSizing, _groundLayerMask);
+
             if (colliders.Length > 0)
             {
-                _isGrounded = true;
-                _rb.bodyType = RigidbodyType2D.Kinematic;
-                _rb.linearVelocity = Vector2.zero;
-                _jumpForcePerc = 1;
+                // Raycast from above the player's feet into the ground to get surface normal
+                Vector2 rayOrigin = transform.position;
+                Vector2 rayDirection = -transform.up;
 
-                //_jumpAmount = _jumpResetAmount;
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, _rayDistance, _groundLayerMask);
+                Debug.Log("Normal from raycast: " + hit.normal);
+
+                if (hit.collider != null)
+                {
+                    if ((hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
+                    {
+                        _isGrounded = true;
+                        _rb.bodyType = RigidbodyType2D.Kinematic;
+                        _rb.linearVelocity = Vector2.zero;
+                        _jumpForcePerc = 1;
+                    }
+                }
             }
-            else _isGrounded = false;
+            else
+            {
+                _isGrounded = false;
+                _rb.bodyType = RigidbodyType2D.Dynamic;
+            }
         }
+
     }
 
     private void HandleStartingEndInput()
@@ -199,6 +223,15 @@ public class PogoJump : MonoBehaviour
             return;
         }
 
+        float angle = Mathf.Atan2(dirToInput.y, dirToInput.x) * Mathf.Rad2Deg;
+        Debug.Log(angle);
+        if (angle < _restrictPogAngle.x || angle  > _restrictPogAngle.y)
+        {
+            return;
+        }
+
+        
+
         _arrowLineRenderer.enabled = true;
         _arrowHeadSprite.enabled = true;
 
@@ -218,7 +251,6 @@ public class PogoJump : MonoBehaviour
 
         // Rotate the arrow to point from offsetHeadPointer to the finalTouchPoint
         Vector3 aimDirection = finalTouchPoint - offsetHeadPointer;
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         _arrowHeadSprite.transform.rotation = Quaternion.Euler(0, 0, angle);
 
     }
