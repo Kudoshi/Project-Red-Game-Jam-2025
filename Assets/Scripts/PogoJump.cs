@@ -63,7 +63,13 @@ public class PogoJump : Singleton<PogoJump>
         HandleGrounding();
 
         if (_jumpAmount == 0)
+        {
+            CheckGameOver();
             return;
+        }
+        else if (_jumpAmount < 0)
+            return;
+
         else
         {
             HandleStartingEndInput();
@@ -81,6 +87,21 @@ public class PogoJump : Singleton<PogoJump>
         HandleZoom();
 
         Ref_Velocity = _rb.linearVelocity;
+
+    }
+
+    private void CheckGameOver()
+    {
+        if (_isGrounded && _jumpAmount == 0)
+        {
+            _jumpAmount = -1;
+            _rb.angularVelocity = 0;
+
+            Util.WaitForSeconds(this, () =>
+            {
+                ExitUI.Instance.GameEnd();
+            }, 3.0f);
+        }
     }
 
     private void HandleZoom()
@@ -372,6 +393,7 @@ public class PogoJump : Singleton<PogoJump>
         _tappy.DOLocalMoveY(0.5f, 0.15f).SetEase(Ease.InOutQuad);
 
         _targetLensOutzoom = _flyingZoomOutSize;
+
 
     }
 
