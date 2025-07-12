@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6043c03bebea0364498c15d235ee0fae
+guid: cf99e9339cf405240b4d9bb2fa9000fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5881544338243731604
-    second: TAPPYPOGO_POGO_SPRING_0
+      213: -8308182837629929065
+    second: cloud2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TAPPYPOGO_POGO_SPRING_0
+      name: cloud2_0
       rect:
         serializedVersion: 2
-        x: 470
-        y: 42
-        width: 139
-        height: 237
+        x: 220
+        y: 223
+        width: 739
+        height: 676
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4904ab3f9617f9150800000000000000
-      internalID: 5881544338243731604
+      spriteID: 79932125ab763bc80800000000000000
+      internalID: -8308182837629929065
       vertices: []
       indices: 
       edges: []
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TAPPYPOGO_POGO_SPRING_0: 5881544338243731604
+      cloud2_0: -8308182837629929065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
