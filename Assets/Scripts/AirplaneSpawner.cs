@@ -3,19 +3,27 @@ using UnityEngine;
 public class AirplaneSpawner : MonoBehaviour
 {
     public GameObject airplanePrefab;
+    public GameObject player;  // Assign your player in Inspector
     public float spawnInterval = 5f;
     public float verticalOffsetMin = -3f;
     public float verticalOffsetMax = 3f;
+    public float startSpawnHeight = 20f; // Height at which airplane starts spawning
 
     private float timer = 0f;
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= spawnInterval)
+        if (player == null) return;
+
+        // Only spawn if player reaches the required height
+        if (player.transform.position.y >= startSpawnHeight)
         {
-            SpawnAirplane();
-            timer = 0f;
+            timer += Time.deltaTime;
+            if (timer >= spawnInterval)
+            {
+                SpawnAirplane();
+                timer = 0f;
+            }
         }
     }
 

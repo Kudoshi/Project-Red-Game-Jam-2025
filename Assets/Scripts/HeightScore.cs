@@ -5,9 +5,10 @@ using UnityEngine;
 public class HeightScore : MonoBehaviour
 {
     public GameObject player;
-
+    
     [SerializeField] private float highestHeight = 0f;
     [SerializeField] private float multiplier = 10f;
+    
 
     private float score;
     private bool isGameEnd;
