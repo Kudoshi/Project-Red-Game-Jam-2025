@@ -11,6 +11,7 @@ public class PogoJump : Singleton<PogoJump>
     [SerializeField] private float _poggingThreshold;
     [SerializeField] private float _poggingMaxDistance;
     [SerializeField] private float _maxPogForce;
+    [SerializeField] private Vector2 _restrictPogAngle;
     [SerializeField] private int _jumpResetAmount;
     [SerializeField] private float _rerotateSpeed;
     [SerializeField] private float _gravity;
@@ -113,15 +114,22 @@ public class PogoJump : Singleton<PogoJump>
                 RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, _rayDistance, _groundLayerMask);
                 Debug.Log("Normal from raycast: " + hit.normal);
 
-                if ((hit.collider != null && hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
+                if (hit.collider != null)
                 {
-                    _isGrounded = true;
-                    _rb.bodyType = RigidbodyType2D.Kinematic;
-                    _rb.linearVelocity = Vector2.zero;
-                    _jumpForcePerc = 1;
+                    if ((hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
+                    {
+                        _isGrounded = true;
+                        _rb.bodyType = RigidbodyType2D.Kinematic;
+                        _rb.linearVelocity = Vector2.zero;
+                        _jumpForcePerc = 1;
+                    }
                 }
             }
-            else _isGrounded = false; 
+            else
+            {
+                _isGrounded = false;
+                _rb.bodyType = RigidbodyType2D.Dynamic;
+            }
         }
 
     }
@@ -215,6 +223,15 @@ public class PogoJump : Singleton<PogoJump>
             return;
         }
 
+        float angle = Mathf.Atan2(dirToInput.y, dirToInput.x) * Mathf.Rad2Deg;
+        Debug.Log(angle);
+        if (angle < _restrictPogAngle.x || angle  > _restrictPogAngle.y)
+        {
+            return;
+        }
+
+        
+
         _arrowLineRenderer.enabled = true;
         _arrowHeadSprite.enabled = true;
 
@@ -234,7 +251,6 @@ public class PogoJump : Singleton<PogoJump>
 
         // Rotate the arrow to point from offsetHeadPointer to the finalTouchPoint
         Vector3 aimDirection = finalTouchPoint - offsetHeadPointer;
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         _arrowHeadSprite.transform.rotation = Quaternion.Euler(0, 0, angle);
 
     }
