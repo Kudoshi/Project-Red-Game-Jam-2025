@@ -41,19 +41,7 @@ public class PogoJump : MonoBehaviour
     }
     void Update()
     {
-        //if (Input.touchCount > 0)
-        //{
-        //    Touch touch = Input.GetTouch(0); // First touch only
-
-        //    if (touch.phase == TouchPhase.Began)
-        //    {
-        //        Debug.Log("Touch started (press down)");
-        //    }
-        //    else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
-        //    {
-        //        Debug.Log("Touch ended (release)");
-        //    }
-        //}
+        
         HandleGrounding();
 
         if (_jumpAmount == 0)
