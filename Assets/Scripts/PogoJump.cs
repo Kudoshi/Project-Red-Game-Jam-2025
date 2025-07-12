@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PogoJump : MonoBehaviour
+public class PogoJump : Singleton<PogoJump>
 {
     [SerializeField] private LineRenderer _arrowLineRenderer;
     [SerializeField] private Vector3 _arrowOffset;
@@ -33,6 +33,8 @@ public class PogoJump : MonoBehaviour
     private int _jumpAmount;
     private float _recheckGrounding;
     private Vector3 _velocity;
+
+    public int JumpAmount { get => _jumpAmount; }
 
     private void Awake()
     {
@@ -111,10 +113,8 @@ public class PogoJump : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, _rayDistance, _groundLayerMask);
                 Debug.Log("Normal from raycast: " + hit.normal);
 
-                if (hit.collider != null && hit.normal.y > 0.85)
+                if ((hit.collider != null && hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
                 {
-                    Vector2 normal = hit.normal;
-
                     _isGrounded = true;
                     _rb.bodyType = RigidbodyType2D.Kinematic;
                     _rb.linearVelocity = Vector2.zero;
