@@ -10,6 +10,9 @@ public class BackgroundTiling : MonoBehaviour
     public Vector3 offset;
     public int preloadTiles = 3;
 
+    [Header("Obstacles")]
+    public GameObject[] obstaclesPrefabTiles;
+
     private HashSet<int> spawnedTileIndices = new HashSet<int>();
 
     void Start()
@@ -45,16 +48,22 @@ public class BackgroundTiling : MonoBehaviour
         int centerIndex = Mathf.RoundToInt(xPos / tileSpacing);
 
         for (int i = -preloadTiles; i <= preloadTiles; i++)
-        {   
+        {
             int tileIndex = centerIndex + i;
             Vector3 spawnPos = new Vector3(tileIndex * tileSpacing, 0f, 0f) + offset;
 
+            // Spawn backgrounds
             if (i == 0)
             {
                 Instantiate(mainTilePrefab, spawnPos, Quaternion.identity).gameObject.SetActive(true);
             }
             else
                 Instantiate(tilePrefab, spawnPos, Quaternion.identity).gameObject.SetActive(true);
+
+            // Spawn Obstacles
+            int randomObstacleIndex = Random.Range(0, obstaclesPrefabTiles.Length);
+            Instantiate(obstaclesPrefabTiles[randomObstacleIndex], spawnPos, Quaternion.identity).gameObject.SetActive(true);
+
             spawnedTileIndices.Add(tileIndex);
         }
     }
