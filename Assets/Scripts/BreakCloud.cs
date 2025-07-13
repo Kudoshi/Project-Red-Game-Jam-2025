@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 
@@ -28,22 +29,28 @@ public class BreakCloud : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !isBreaking)
         {
             Debug.Log("Hit Player");
             isBreaking = true;
             timer = 0f;
+
+            DOVirtual.Float(0.02f, 0.1f, breakDelay, (strength) =>
+            {
+                transform.DOShakePosition(0.2f, strength, 5, 90f, false, true)
+                         .SetEase(Ease.OutQuad);
+            });
         }
     }
     
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            isBreaking = false;
-            timer = 0f;
-        }
+        //if (collision.CompareTag("Player"))
+        //{
+        //    isBreaking = false;
+        //    timer = 0f;
+        //}
     }
 
     private void Break()
@@ -51,6 +58,7 @@ public class BreakCloud : MonoBehaviour
         if (breakParticle != null)
         {
             GameObject p = Instantiate(breakParticle, transform.position, Quaternion.identity);
+            p.GetComponent<ParticleSystem>().Play();
             Destroy(p, 2f);
         }
 
