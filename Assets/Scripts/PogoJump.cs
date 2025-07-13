@@ -68,7 +68,7 @@ public class PogoJump : Singleton<PogoJump>
 
         if (_jumpAmount == 0)
         {
-            CheckGameOver();
+            GameOver();
             return;
         }
         else if (_jumpAmount < 0)
@@ -99,11 +99,10 @@ public class PogoJump : Singleton<PogoJump>
     {
         SoundManager.Instance.PlaySound(new SoundVariationizer("sfx_hit_thud_", 0.25f, 0, 3));
     }
-    private void CheckGameOver()
+    private void GameOver()
     {
         if (_isGrounded && _jumpAmount == 0)
         {
-            _jumpAmount = -1;
             _rb.angularVelocity = 0;
 
             Util.WaitForSeconds(this, () =>
