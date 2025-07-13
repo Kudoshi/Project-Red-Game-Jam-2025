@@ -49,5 +49,29 @@ MonoBehaviour:
     Volume: 0.7
     SpatialBlend: 0
     Pitch: 1
+  - SoundName: sfx_ticket_collect
+    Clip: {fileID: 8300000, guid: 7dd1fef3e4172644bb28fa1d53e71da6, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 0.7
+    SpatialBlend: 0
+    Pitch: 1
+  - SoundName: sfx_cloud_shake
+    Clip: {fileID: 8300000, guid: 5d4c8d2734c7d9647a26dbae34588726, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 0.7
+    SpatialBlend: 0
+    Pitch: 1
+  - SoundName: sfx_cloud_break
+    Clip: {fileID: 8300000, guid: be3d3ccff5f44bb479a201a1d2d3a321, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 0.7
+    SpatialBlend: 0
+    Pitch: 1
+  - SoundName: sfx_tap_screen
+    Clip: {fileID: 8300000, guid: 563f24a3606384049ae658ce92b92751, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 0.7
+    SpatialBlend: 0
+    Pitch: 1
   BGMList: []
   DialoguePath: Dialogues/Voicelines

@@ -10,6 +10,7 @@ public class CoinCollect : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             UICoin.Instance.AddCoin();
+            SoundManager.Instance.PlaySound("sfx_ticket_collect");
             Destroy(gameObject);
         }
     }
