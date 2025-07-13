@@ -15,7 +15,7 @@ TagManager:
   - Player
   - Fan
   - Coin
-  - 
+  - Obstacle
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1300023833
+    locked: 0
+  - name: VFX
+    uniqueID: 1424059175
     locked: 0
   - name: UI
     uniqueID: 1313777673
