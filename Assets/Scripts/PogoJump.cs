@@ -92,6 +92,11 @@ public class PogoJump : Singleton<PogoJump>
 
     }
 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        SoundManager.Instance.PlaySound(new SoundVariationizer("sfx_hit_thud_", 0.25f, 0, 3));
+    }
     private void CheckGameOver()
     {
         if (_isGrounded && _jumpAmount == 0)
@@ -172,6 +177,7 @@ public class PogoJump : Singleton<PogoJump>
                     if (!_isGrounded)
                     {
                         _smokeFx.Play();
+                        SoundManager.Instance.PlaySound(new SoundVariationizer("sfx_hit_thud_", 0.25f, 0, 3));
                     }
 
                     _isGrounded = true;
@@ -228,6 +234,7 @@ public class PogoJump : Singleton<PogoJump>
                 _inputData = new InputData(true, InputData.INPUT_PHASE.HOLDING, inputPosition, Vector2.negativeInfinity);
                 _inputData.StartingHoldPos = worldPos;
                 _inputData.CurrentHoldPos = worldPos;
+                SoundManager.Instance.PlaySound("sfx_spring_load");
 
             }
             //else if (Input.GetMouseButtonDown(0))
@@ -321,14 +328,14 @@ public class PogoJump : Singleton<PogoJump>
         Vector3 finalTouchPoint = offsetHeadPointer + dirToInput.normalized * poggingDistance;
         // Save it
         _inputData.CurrentHoldPos = finalTouchPoint;
-
+         
         
 
         // Rotate the arrow to point from offsetHeadPointer to the finalTouchPoint
         Vector3 aimDirection = finalTouchPoint - offsetHeadPointer;
         _arrowHeadSprite.transform.rotation = Quaternion.Euler(0, 0, angle-90f);
 
-        _tappy.DOLocalMoveY(-0.4f, 0.25f).SetEase(Ease.InOutBounce);
+        _tappy.DOLocalMoveY(-0.4f, 0.25f).SetEase(Ease.Linear);
 
         //DOTween.To(() => _vcam.Lens.OrthographicSize,
         //       x => _vcam.Lens.OrthographicSize = x,
@@ -403,7 +410,7 @@ public class PogoJump : Singleton<PogoJump>
         _tappy.DOLocalMoveY(0.5f, 0.15f).SetEase(Ease.InOutQuad);
 
         _targetLensOutzoom = _flyingZoomOutSize;
-
+        SoundManager.Instance.PlaySound("sfx_spring_unload");
 
     }
 
