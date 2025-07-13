@@ -6,6 +6,7 @@ using UnityEngine.VFX;
 
 public class PogoJump : Singleton<PogoJump>
 {
+
     [SerializeField] private LineRenderer _arrowLineRenderer;
     [SerializeField] private Vector3 _arrowOffset;
     [SerializeField] private SpriteRenderer _arrowHeadSprite;
@@ -178,7 +179,7 @@ public class PogoJump : Singleton<PogoJump>
                     {
                         _smokeFx.Play();
                         SoundManager.Instance.PlaySound(new SoundVariationizer("sfx_hit_thud_", 0.25f, 0, 3));
-                    }
+                     }
 
                     _isGrounded = true;
                     _rb.bodyType = RigidbodyType2D.Kinematic;

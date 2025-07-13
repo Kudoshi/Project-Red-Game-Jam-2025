@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using Unity.UI;
 
 public class GameManager : MonoBehaviour
 {
