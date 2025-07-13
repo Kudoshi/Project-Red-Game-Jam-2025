@@ -50,6 +50,8 @@ public class PogoJump : Singleton<PogoJump>
     private float _defaultLensOutzoom;
     private float _targetLensOutzoom;
 
+    private ContactFilter2D _filter = new ContactFilter2D();
+    
     public int JumpAmount { get => _jumpAmount; }
 
     public Vector3 Ref_Velocity;
@@ -61,6 +63,10 @@ public class PogoJump : Singleton<PogoJump>
         _jumpAmount = _jumpResetAmount;
         _defaultLensOutzoom = _vcam.Lens.OrthographicSize;
         _targetLensOutzoom = _defaultLensOutzoom;
+
+        _filter.useTriggers = false;
+        _filter.SetLayerMask(_groundLayerMask);
+        _filter.useLayerMask = true;
     }
 
     private void Start()
@@ -177,7 +183,12 @@ public class PogoJump : Singleton<PogoJump>
                 Vector2 rayOrigin = transform.position;
                 Vector2 rayDirection = -transform.up;
 
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, _rayDistance, _groundLayerMask);
+                RaycastHit2D[] hits = new RaycastHit2D[1];
+                int hitCount = Physics2D.Raycast(rayOrigin, rayDirection, _filter, hits, _rayDistance);
+                RaycastHit2D hit = new RaycastHit2D();
+
+                if (hitCount > 0) hit = hits[0];
+
 
                 if ((hit.normal.y > 0.85) || (hit.normal.x == 0 && hit.normal.y == 0))
                 {

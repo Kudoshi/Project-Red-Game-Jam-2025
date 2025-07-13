@@ -235,8 +235,8 @@ Transform:
   m_GameObject: {fileID: 2098562205382226691}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: -2.437, z: 0}
-  m_LocalScale: {x: 0.373, y: 0.679233, z: 0.373}
+  m_LocalPosition: {x: 0, y: -2.773, z: 0}
+  m_LocalScale: {x: 0.373, y: 0.9624732, z: 0.373}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2538832361244008418}
@@ -930,9 +930,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 4223030044966113174}
   HeightMeter: {fileID: 0}
+  HeightResult: {fileID: 0}
+  Score: {fileID: 0}
+  JumpTotal: {fileID: 0}
+  TicketTotal: {fileID: 0}
   highestHeight: 0
   currentHeight: 0
   multiplier: 10
+  isGameEnd: 0
 --- !u!70 &5344717296860626208
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
