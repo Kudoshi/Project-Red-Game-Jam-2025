@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
         MainMenu.SetActive(false);
         InGameUI.SetActive(true);
         pogo.enabled = true;
+        SoundManager.Instance.PlaySound("sfx_tap_screen");
         
         Time.timeScale = 1f;
     }

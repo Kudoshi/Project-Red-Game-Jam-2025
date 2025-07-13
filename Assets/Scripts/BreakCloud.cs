@@ -34,6 +34,7 @@ public class BreakCloud : MonoBehaviour
             Debug.Log("Hit Player");
             isBreaking = true;
             timer = 0f;
+            SoundManager.Instance.PlaySound("sfx_cloud_shake");
 
             DOVirtual.Float(0.02f, 0.1f, breakDelay, (strength) =>
             {
@@ -57,6 +58,7 @@ public class BreakCloud : MonoBehaviour
     {
         if (breakParticle != null)
         {
+            SoundManager.Instance.PlaySound("sfx_cloud_break");
             GameObject p = Instantiate(breakParticle, transform.position, Quaternion.identity);
             p.GetComponent<ParticleSystem>().Play();
             Destroy(p, 2f);
