@@ -62,6 +62,13 @@ public class PogoJump : Singleton<PogoJump>
         _defaultLensOutzoom = _vcam.Lens.OrthographicSize;
         _targetLensOutzoom = _defaultLensOutzoom;
     }
+
+    private void Start()
+    {
+        TappyAnimations.Instance.ChangeToAnimation("IDLE");
+    }
+
+
     void Update()
     {
         HandleGrounding();
@@ -177,6 +184,7 @@ public class PogoJump : Singleton<PogoJump>
                     if (!_isGrounded)
                     {
                         _smokeFx.Play();
+                        TappyAnimations.Instance.ChangeToAnimation("IDLE");
                         SoundManager.Instance.PlaySound(new SoundVariationizer("sfx_hit_thud_", 0.25f, 0, 3));
                      }
 
@@ -211,7 +219,6 @@ public class PogoJump : Singleton<PogoJump>
             if (Input.touchCount > 0 )
             {
                 
-
                 Touch touch = Input.GetTouch(0);
                 Vector2 inputPosition = touch.position;
 
@@ -234,6 +241,7 @@ public class PogoJump : Singleton<PogoJump>
                 _inputData = new InputData(true, InputData.INPUT_PHASE.HOLDING, inputPosition, Vector2.negativeInfinity);
                 _inputData.StartingHoldPos = worldPos;
                 _inputData.CurrentHoldPos = worldPos;
+                TappyAnimations.Instance.ChangeToAnimation("POG");
                 SoundManager.Instance.PlaySound("sfx_spring_load");
 
             }
