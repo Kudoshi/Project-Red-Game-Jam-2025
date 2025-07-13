@@ -20,14 +20,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         pogo = player.GetComponent<PogoJump>();
         pogo.enabled = false;
+
         
-        if (tapToPlayUI != null)
-        {
-            tapToPlayUI.transform.DOScale(scaleUpSize, duration)
-                .SetLoops(-1, LoopType.Yoyo)
-                .SetEase(Ease.InOutSine)
-                .SetUpdate(true);
-        }
+        MainMenu.SetActive(true);
+
+        tapToPlayUI.transform.DOScale(scaleUpSize, duration)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine)
+            .SetUpdate(true);
     }
 
     private void Update()

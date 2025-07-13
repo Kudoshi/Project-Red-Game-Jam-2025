@@ -13,6 +13,7 @@ public class PogoJump : Singleton<PogoJump>
     [SerializeField] private Transform _tappy;
     [SerializeField] private CinemachineCamera _vcam;
     [SerializeField] private ParticleSystem _smokeFx;
+    [SerializeField] private ParticleSystem _launchSmokeFx;
 
     [Header("Stats")]
     [SerializeField] private float _poggingThreshold;
@@ -148,7 +149,6 @@ public class PogoJump : Singleton<PogoJump>
     {
         if (Time.time >= _recheckGrounding && _isGrounded && !_holding)
         {
-            Debug.Log("Rotate bang");
 
             float currentZ = _rb.rotation;
             float targetZ = 0f;
@@ -412,7 +412,7 @@ public class PogoJump : Singleton<PogoJump>
 
         _targetLensOutzoom = _flyingZoomOutSize;
         SoundManager.Instance.PlaySound("sfx_spring_unload");
-
+        _launchSmokeFx.Play();
     }
 
     private void OnDrawGizmosSelected()
