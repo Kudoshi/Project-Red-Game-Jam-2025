@@ -4,6 +4,7 @@ using UnityEngine;
 public class CoinCollect : MonoBehaviour
 {
     public float rotateSpeed = 5f;
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -15,7 +16,6 @@ public class CoinCollect : MonoBehaviour
 
     void Update()
     {
-
         transform.Rotate(new Vector3(0, rotateSpeed, 0));
     }
 }
