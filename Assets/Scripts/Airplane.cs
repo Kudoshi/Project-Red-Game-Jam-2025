@@ -6,9 +6,9 @@ public class Airplane : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector2.left * speed * Time.deltaTime);
+        transform.Translate(Vector2.right * speed * Time.deltaTime);
         
-        if (Camera.main != null && transform.position.x < Camera.main.transform.position.x - 10f)
+        if (Camera.main != null && transform.position.x > Camera.main.transform.position.x + 10f)
         {
             Destroy(gameObject);
         }

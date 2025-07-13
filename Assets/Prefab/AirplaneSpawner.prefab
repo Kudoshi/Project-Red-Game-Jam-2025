@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   airplanePrefab: {fileID: 5042576966381438215, guid: cf5201c91e91fe04a8b07d729453db4e, type: 3}
-  spawnInterval: 3
-  verticalOffsetMin: 0
-  verticalOffsetMax: 6
+  player: {fileID: 0}
+  spawnInterval: 6
+  verticalOffsetMin: -5
+  verticalOffsetMax: 5
+  startSpawnHeight: 26
