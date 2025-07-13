@@ -52,7 +52,7 @@ public class PogoJump : Singleton<PogoJump>
 
     private ContactFilter2D _filter = new ContactFilter2D();
     
-    public int JumpAmount { get => _jumpAmount; }
+    public int JumpAmount { get => _jumpAmount; set => _jumpAmount = value; }
 
     public Vector3 Ref_Velocity;
 
