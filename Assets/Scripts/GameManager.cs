@@ -6,6 +6,8 @@ using DG.Tweening;
 public class GameManager : MonoBehaviour
 {
     public GameObject tapToPlayUI;
+    public GameObject MainMenu;
+    public GameObject InGameUI;
     public GameObject player;
     
     public float scaleUpSize = 1.2f;
@@ -40,7 +42,8 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         gameStarted = true;
-        tapToPlayUI.SetActive(false);
+        MainMenu.SetActive(false);
+        InGameUI.SetActive(true);
         pogo.enabled = true;
         
         Time.timeScale = 1f;
