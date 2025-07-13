@@ -719,7 +719,7 @@ MonoBehaviour:
   _poggingMaxDistance: 4
   _maxPogForce: 17
   _restrictPogAngle: {x: 30, y: 150}
-  _jumpResetAmount: 10
+  _jumpResetAmount: 6
   _rerotateSpeed: 3
   _gravity: 10
   _drag: 0
