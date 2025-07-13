@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35f894e3e9763540bc32481ca143ad7, type: 3}
+  m_Name: SO_SoundRepo
+  m_EditorClassIdentifier: 
+  SoundList:
+  - SoundName: sfx_test
+    Clip: {fileID: 8300000, guid: f2c9f05b2d3b3264b9230769439069e1, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 1
+    SpatialBlend: 0
+    Pitch: 1
+  - SoundName: sfx_hit_thud_0
+    Clip: {fileID: 8300000, guid: 9eb256dea9436084e86b48f5f5468aa7, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 1
+    SpatialBlend: 0.25
+    Pitch: 1
+  - SoundName: sfx_hit_thud_1
+    Clip: {fileID: 8300000, guid: 4976af6e57cb6934291de17215d306e4, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 1
+    SpatialBlend: 0.25
+    Pitch: 1
+  - SoundName: sfx_hit_thud_2
+    Clip: {fileID: 8300000, guid: 275903512158e1a429b1a88aaf0e15c6, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 1
+    SpatialBlend: 0.25
+    Pitch: 1
+  - SoundName: sfx_spring_load
+    Clip: {fileID: 8300000, guid: bbe2b5770131dc8489e83fc298bdb310, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 0.7
+    SpatialBlend: 0
+    Pitch: 1
+  - SoundName: sfx_spring_unload
+    Clip: {fileID: 8300000, guid: bc77efac9740b2541a71ed8a4964f6c5, type: 3}
+    AttachedParent: {fileID: 0}
+    Volume: 0.7
+    SpatialBlend: 0
+    Pitch: 1
+  BGMList: []
+  DialoguePath: Dialogues/Voicelines

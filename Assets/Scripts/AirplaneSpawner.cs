@@ -7,7 +7,7 @@ public class AirplaneSpawner : MonoBehaviour
     public float spawnInterval = 5f;
     public float verticalOffsetMin = -3f;
     public float verticalOffsetMax = 3f;
-    public float startSpawnHeight = 20f; // Height at which airplane starts spawning
+    public float startSpawnHeight; // Height at which airplane starts spawning
 
     private float timer = 0f;
 
@@ -32,7 +32,7 @@ public class AirplaneSpawner : MonoBehaviour
         Camera cam = Camera.main;
         if (cam == null) return;
 
-        Vector3 spawnPosition = cam.ViewportToWorldPoint(new Vector3(1.1f, 0.5f, cam.nearClipPlane));
+        Vector3 spawnPosition = cam.ViewportToWorldPoint(new Vector3(-0.9f, 0.5f, cam.nearClipPlane));
         spawnPosition.z = 0f;
         spawnPosition.y += Random.Range(verticalOffsetMin, verticalOffsetMax);
 
